@@ -1,6 +1,6 @@
 
 
-var DataPoint = require('../data-point');
+var DataPoint = require('./data-point');
 
 describe('DataPoint()', function () {
   it('initialize', function () {

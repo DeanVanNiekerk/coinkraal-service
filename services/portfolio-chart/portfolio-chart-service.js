@@ -3,6 +3,11 @@ var moment = require('moment');
 var DataPoint = require('./data-point');
 
 class PortfolioChartService {
+
+    constructor(utilityService) {
+        this.utilityService = utilityService;
+    }
+
     getData(transactions, currency1, currency2, timeRange, dataFrequencyLimit, apis) {
 
         return new Promise((resolve, reject) => {
@@ -28,7 +33,7 @@ class PortfolioChartService {
                 limit = this.getLimit(transactions, dataFrequency);
             }
 
-            let inCurrencies = this.getUniqueCurrencies(transactions);
+            let inCurrencies = this.utilityService.getUniqueCurrencies(transactions);
 
             this.loadDataPoints(inCurrencies.slice(0), currency1, transactions, limit, dataFrequency, apis)
                 .then((dataPoints1) => {
@@ -160,17 +165,6 @@ class PortfolioChartService {
             }
         }
         return dailyData;
-    }
-
-    getUniqueCurrencies(transactions) {
-        let currencies = transactions.map(t => {
-            return t.currency;
-        })
-        return currencies.filter(this.unique);
-    }
-
-    unique(value, index, self) {
-        return self.indexOf(value) === index;
     }
 
     //How many days/hours to go back

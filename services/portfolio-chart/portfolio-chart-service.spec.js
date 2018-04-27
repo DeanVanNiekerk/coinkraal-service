@@ -1,7 +1,8 @@
 var moment = require('moment');
 
-var PortfolioChartService = require('../portfolio-chart-service');
-var DataPoint = require('../data-point');
+var DataPoint = require('./data-point');
+var PortfolioChartService = require('./portfolio-chart-service');
+var UtilityService = require('../utility/utility-service');
 
 describe('PortfolioChartService()', function () {
 
@@ -80,24 +81,6 @@ describe('PortfolioChartService()', function () {
 
     });
 
-    it('getUniqueCurrencies - 3 transaction', function () {
-
-        //Given:
-        var service = new PortfolioChartService()
-
-        var t1 = { currency: 'BTC' };
-        var t2 = { currency: 'ETH' };
-        var t3 = { currency: 'BTC' };
-        
-
-        //When: 
-        var currencies = service.getUniqueCurrencies([t1, t2, t3]);
-
-        //Then:
-        expect(currencies).toEqual(['BTC', 'ETH']);
-
-    });
-
     it('getInitialsedDataPoints - 3 data points', function () {
 
         //Given:
@@ -170,29 +153,29 @@ describe('PortfolioChartService()', function () {
         expect(sales).toEqual([s1, s3]);
     });
 
-    // it('loadDataPointsForDailyData - 1 transaction', function () {
+    it('loadDataPointsForDailyData - 1 transaction', function () {
 
-    //     //Given:
-    //     var service = new PortfolioChartService()
+        //Given:
+        var service = new PortfolioChartService()
 
-    //     var dailyData = [];
-    //     var transactions = [];
+        var dailyData = [];
+        var transactions = [];
 
-    //     var dataPoints = service.getInitialsedDataPoints(1, 'days');
+        var dataPoints = service.getInitialsedDataPoints(1, 'days');
 
-    //     for (let time in dataPoints) {
-    //         if (dataPoints.hasOwnProperty(time)) {
-    //             dailyData.push({ time: time, close: 100 });
-    //             transactions.push({ currency: 'BTC', amount: 2, date: moment().subtract(2, 'days').toDate(), sales: [] });
-    //         }
-    //     }
+        for (let time in dataPoints) {
+            if (dataPoints.hasOwnProperty(time)) {
+                dailyData.push({ time: time, close: 100 });
+                transactions.push({ currency: 'BTC', amount: 2, date: moment().subtract(2, 'days').toDate(), sales: [] });
+            }
+        }
 
-    //     //When: 
-    //     service.loadDataPointsForDailyData(dataPoints, transactions, 'BTC', dailyData);
+        //When: 
+        service.loadDataPointsForDailyData(dataPoints, transactions, 'BTC', dailyData);
 
-    //     //Then:
-    //     expect(dataPoints[dailyData[0].time].getTotal()).toEqual(200);
-    // });
+        //Then:
+        expect(dataPoints[dailyData[0].time].getTotal()).toEqual(200);
+    });
 
     it('getData - no transactions', function (done) {
 
@@ -214,7 +197,8 @@ describe('PortfolioChartService()', function () {
     it('getData - intergration test', function (done) {
 
         //Given:
-        var service = new PortfolioChartService();
+        var utility = new UtilityService();
+        var service = new PortfolioChartService(utility);
 
         var t1 = moment().utc().subtract(2, 'days').startOf('day').unix();
         var t2 = moment().utc().subtract(1, 'days').startOf('day').unix();
