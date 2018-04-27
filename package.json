@@ -1,0 +1,27 @@
+{
+  "name": "ck-portfolio-chart-service",
+  "version": "0.2.0",
+  "description": "Portfolio Chart Service for CoinKraal Applications",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node spec --color --verbose",
+    "test-dev": "jasmine-node spec --autotest --watch --color --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeanVanNiekerk/ck-portfolio-chart-service.git"
+  },
+  "author": "Dean van Niekerk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DeanVanNiekerk/ck-portfolio-chart-service/issues"
+  },
+  "homepage": "https://github.com/DeanVanNiekerk/ck-portfolio-chart-service#readme",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5",
+    "moment": "^2.22.1"
+  },
+  "dependencies": {
+    "moment": "^2.22.1"
+  }
+}
