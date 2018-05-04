@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node services --color --verbose",
-    "test-dev": "jasmine-node services --autotest --watch --color --verbose"
+    "test-dev": "jasmine-node services --autotest --color --verbose --watch"
   },
   "repository": {
     "type": "git",
