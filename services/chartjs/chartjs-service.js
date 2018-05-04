@@ -5,7 +5,7 @@ class ChartJsService {
         this.utilityService = utilityService;
     }
 
-    getChartJsDataset(data, label, borderColor, yAxisId) {
+    getLineChartJsDataset(data, label, borderColor, yAxisId) {
 
         return {
             label: label,
@@ -21,7 +21,7 @@ class ChartJsService {
         };
     }
 
-    getChartJsOptions(arr1, arr2, currency1, currency2, dataFrequency) {
+    getLineChartJsOptions(arr1, arr2, currency1, currency2, dataFrequency) {
 
         let options = {
             customLine: {
@@ -105,7 +105,7 @@ class ChartJsService {
         return options;
     }
 
-    getPlugins() {
+    getVerticalLinePlugin() {
 
         let verticalLinePlugin = {
             afterDatasetsDraw: (chart) => {
@@ -136,7 +136,38 @@ class ChartJsService {
             }
         };
 
-        return [verticalLinePlugin]
+        return verticalLinePlugin
+    }
+
+    getPieChartJsDataset(data) {
+
+        return  {
+            data: data,
+            backgroundColor: [
+                '#75B9BE',
+                '#8DB580',
+                '#BFD7EA',
+                '#6D8EA0',
+                '#7B6D8D',
+                '#FFCAB1'
+            ]
+        };
+    }
+
+    getPieChartJsOptions() {
+
+        return  {
+            tooltips: {
+                enabled: true,
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        let dataset = data.datasets[tooltipItem.datasetIndex];
+                        let currentValue = dataset.data[tooltipItem.index];
+                        return `${data.labels[tooltipItem.index]}: ${currentValue}%`;
+                    }
+                }
+            }
+        };
     }
 }
 

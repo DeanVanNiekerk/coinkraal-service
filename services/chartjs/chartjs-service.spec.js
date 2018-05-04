@@ -4,17 +4,17 @@ var UtilityService = require('../utility/utility-service');
 
 describe('ChartJsService()', function () {
 
-    it('getChartJsDataset - base settings', function () {
+    it('getLineChartJsDataset - base settings', function () {
 
         //Given:
         var service = new ChartJsService();
         var data = { "prop1": "val1" };
         var label = { "prop2": "val2" };
         var borderColor = "red";
-        var yAxisId = "red";
+        var yAxisId = "123X";
 
         //When: 
-        var dataset = service.getChartJsDataset(data, label, borderColor, yAxisId);
+        var dataset = service.getLineChartJsDataset(data, label, borderColor, yAxisId);
 
         //Then:
         expect(dataset.data).toEqual(data);
