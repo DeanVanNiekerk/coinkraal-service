@@ -225,13 +225,17 @@ describe('PortfolioChartService()', function () {
         var promise = service.getData([t1], 'USD', 'BTC', 3, 2, api);
 
         //Then:
-        promise.then(dataPoints => {
+        promise.then(data => {
             
+            var dataPoints = data.dataPoints;
+
             var dataPoints1 = dataPoints[0];
             expect(dataPoints1[t3].getTotal()).toEqual(8865.7);
 
             var dataPoints2 = dataPoints[1];
             expect(dataPoints2[t2].getTotal()).toEqual(1);
+
+            expect(data.dataFrequency).toEqual('days');
 
             done();
         })

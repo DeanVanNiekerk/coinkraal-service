@@ -125,7 +125,9 @@ describe('CoinChartService()', function () {
 
         //When: 
         service.getData('ICX', 'BTC', 'USD', 60)
-            .then((dataPoints) => {
+            .then((data) => {
+
+                var dataPoints = data.dataPoints;
 
                 //Then:
                 expect(dataPoints.length).toEqual(2);
@@ -137,6 +139,8 @@ describe('CoinChartService()', function () {
                 expect(dataPoints[1].length).toEqual(2);
                 expect(dataPoints[1][0].value).toEqual(200);
                 expect(dataPoints[1][1].value).toEqual(900);
+
+                expect(data.dataFrequency).toEqual('days');
 
                 done();
             });

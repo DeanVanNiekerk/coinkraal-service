@@ -40,7 +40,13 @@ class PortfolioChartService {
                 .then((dataPoints1) => {
                     this.loadDataPoints(inCurrencies.slice(0), currency2, transactions, limit, dataFrequency)
                         .then((dataPoints2) => {
-                            resolve([dataPoints1, dataPoints2]);
+                            resolve({
+                                dataPoints: [
+                                    dataPoints1,
+                                    dataPoints2
+                                ],
+                                dataFrequency: dataFrequency
+                            });
                         })
                 });
         });

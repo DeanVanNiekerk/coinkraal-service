@@ -34,10 +34,13 @@ class CoinChartService {
                             dataPoints1 = this.filterOutEmptyDataPoints(dataPoints1, minDataPoints);
                             dataPoints2 = this.filterOutEmptyDataPoints(dataPoints2, minDataPoints);
 
-                            resolve([
-                                dataPoints1,
-                                dataPoints2
-                            ]);
+                            resolve({
+                                dataPoints: [
+                                    dataPoints1,
+                                    dataPoints2
+                                ],
+                                dataFrequency: dataFrequency
+                            });
                         })
                 });
         });
