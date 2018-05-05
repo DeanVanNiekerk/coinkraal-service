@@ -1,6 +1,6 @@
 {
   "name": "coinkraal-service",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Services for CoinKraal Applications",
   "main": "index.js",
   "scripts": {
