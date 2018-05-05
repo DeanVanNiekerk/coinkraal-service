@@ -41,8 +41,8 @@ class PortfolioChartService {
                         .then((dataPoints2) => {
                             resolve({
                                 dataPoints: [
-                                    dataPoints1,
-                                    dataPoints2
+                                    this.utilityService.objectToArray(dataPoints1),
+                                    this.utilityService.objectToArray(dataPoints2)
                                 ],
                                 dataFrequency: dataFrequency
                             });

@@ -187,8 +187,7 @@ describe('PortfolioChartService()', function () {
 
         //Then:
         promise.then(data => {
-            expect(data.labels).toEqual([]);
-            expect(data.datasets).toEqual([]);
+            expect(data.dataPoints).toEqual([]);
             done();
         })
 
@@ -230,10 +229,10 @@ describe('PortfolioChartService()', function () {
             var dataPoints = data.dataPoints;
 
             var dataPoints1 = dataPoints[0];
-            expect(dataPoints1[t3].getTotal()).toEqual(8865.7);
+            expect(dataPoints1[2].getTotal()).toEqual(8865.7);
 
             var dataPoints2 = dataPoints[1];
-            expect(dataPoints2[t2].getTotal()).toEqual(1);
+            expect(dataPoints2[1].getTotal()).toEqual(1);
 
             expect(data.dataFrequency).toEqual('days');
 
