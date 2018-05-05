@@ -1,4 +1,6 @@
 
+let Api = require('coinkraal-api-interface');
+
 let UtilityService = require('./utility/utility-service');
 
 let TransactionSummaryService = require('./transaction-summary/transaction-summary-service');
@@ -12,6 +14,10 @@ let ChartJsService = require('./chartjs/chartjs-service');
 
 class ServiceFactory {
 
+    constructor() {
+        this.api = new Api('', () => { }, () => { });
+    }
+
     utilityService() {
         return new UtilityService();
     }
@@ -21,11 +27,11 @@ class ServiceFactory {
     }
 
     portfolioChartService() {
-        return new PortfolioChartService(this.utilityService());
+        return new PortfolioChartService(this.utilityService(), this.api);
     }
 
     coinChartService() {
-        return new CoinChartService();
+        return new CoinChartService(this.api);
     }
 
     coinRiskChartService() {

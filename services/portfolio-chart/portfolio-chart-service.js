@@ -4,11 +4,12 @@ var DataPoint = require('./data-point');
 
 class PortfolioChartService {
 
-    constructor(utilityService) {
+    constructor(utilityService, api) {
         this.utilityService = utilityService;
+        this.api = api;
     }
 
-    getData(transactions, currency1, currency2, timeRange, dataFrequencyLimit, apis) {
+    getData(transactions, currency1, currency2, timeRange, dataFrequencyLimit) {
 
         return new Promise((resolve, reject) => {
 
@@ -35,9 +36,9 @@ class PortfolioChartService {
 
             let inCurrencies = this.utilityService.getUniqueCurrencies(transactions);
 
-            this.loadDataPoints(inCurrencies.slice(0), currency1, transactions, limit, dataFrequency, apis)
+            this.loadDataPoints(inCurrencies.slice(0), currency1, transactions, limit, dataFrequency)
                 .then((dataPoints1) => {
-                    this.loadDataPoints(inCurrencies.slice(0), currency2, transactions, limit, dataFrequency, apis)
+                    this.loadDataPoints(inCurrencies.slice(0), currency2, transactions, limit, dataFrequency)
                         .then((dataPoints2) => {
                             resolve([dataPoints1, dataPoints2]);
                         })
@@ -46,7 +47,7 @@ class PortfolioChartService {
 
     }
 
-    loadDataPoints(inCurrencies, toCurrency, transactions, limit, dataFrequency, apis) {
+    loadDataPoints(inCurrencies, toCurrency, transactions, limit, dataFrequency) {
 
         return new Promise((resolve, reject) => {
 
@@ -56,11 +57,11 @@ class PortfolioChartService {
             }
 
             let dataPoints = this.getInitialsedDataPoints(limit, dataFrequency);
-            this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve, apis);
+            this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve);
         });
     }
 
-    loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve, apis) {
+    loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve) {
 
         if (inCurrencies.length == 0) {
             resolve(dataPoints);
@@ -72,18 +73,14 @@ class PortfolioChartService {
         if (fromCurrency == toCurrency) {
             let dailyData = this.getSelfReferenceDailyData(dataPoints);
             this.loadDataPointsForDailyData(dataPoints, transactions, fromCurrency, dailyData);
-            this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve, apis);
+            this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve);
         }
         else {
 
-            let api = apis.hourly;
-            if (dataFrequency == 'days')
-                api = apis.daily;
-
-            api(fromCurrency, toCurrency, limit)
+            this.api.CryptoCompare.getHistoricalPriceByFrequency(fromCurrency, toCurrency, limit, dataFrequency)
                 .then(dailyData => {
                     this.loadDataPointsForDailyData(dataPoints, transactions, fromCurrency, dailyData);
-                    this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve, apis);
+                    this.loadDataPointsForCurrency(inCurrencies, toCurrency, dataPoints, transactions, limit, dataFrequency, resolve);
                 })
         }
     }

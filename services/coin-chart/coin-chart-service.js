@@ -4,7 +4,11 @@ var DataPoint = require('./data-point');
 
 class CoinChartService {
 
-    getData(coin, currency1, currency2, timeRange, apis) {
+    constructor(api) {
+        this.api = api;
+    }
+
+    getData(coin, currency1, currency2, timeRange) {
 
         return new Promise((resolve, reject) => {
 
@@ -16,10 +20,10 @@ class CoinChartService {
             if (dataFrequency == 'hours')
                 limit = limit * 24;
 
-            this.loadDataPointsForCurrency(coin, currency1, limit, dataFrequency, apis)
+            this.loadDataPointsForCurrency(coin, currency1, limit, dataFrequency)
                 .then((dataPoints1) => {
 
-                    this.loadDataPointsForCurrency(coin, currency2, limit, dataFrequency, apis)
+                    this.loadDataPointsForCurrency(coin, currency2, limit, dataFrequency)
                         .then((dataPoints2) => {
 
                             let maxDataPoints1 = this.getMaxDataPoints(dataPoints1);
@@ -39,7 +43,7 @@ class CoinChartService {
         });
     }
 
-    loadDataPointsForCurrency(fromCurrency, toCurrency, limit, dataFrequency, apis) {
+    loadDataPointsForCurrency(fromCurrency, toCurrency, limit, dataFrequency) {
 
         return new Promise((resolve, reject) => {
 
@@ -49,11 +53,7 @@ class CoinChartService {
             }
             else {
 
-                let api = apis.hourly;
-                if (dataFrequency == 'days')
-                    api = apis.daily;
-
-                api(fromCurrency, toCurrency, limit)
+                this.api.CryptoCompare.getHistoricalPriceByFrequency(fromCurrency, toCurrency, limit, dataFrequency)
                     .then(dailyData => {
                         let dataPoints = this.getDataPointsForDailyData(dailyData);
                         resolve(dataPoints);

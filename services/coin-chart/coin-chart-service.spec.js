@@ -42,7 +42,7 @@ describe('CoinChartService()', function () {
 
         var dp2 = new DataPoint(moment());
         dp2.value = 2;
-        
+
         //When: 
         var dataPoints = service.filterOutEmptyDataPoints([dp1, dp2], 0);
 
@@ -69,7 +69,7 @@ describe('CoinChartService()', function () {
 
         var dp4 = new DataPoint(moment());
         dp4.value = 2;
-        
+
         //When: 
         var dataPoints = service.filterOutEmptyDataPoints([dp1, dp2, dp3, dp4], 2);
 
@@ -90,7 +90,7 @@ describe('CoinChartService()', function () {
 
         var dp2 = new DataPoint(moment());
         dp2.value = 2;
-        
+
         //When: 
         var count = service.getMaxDataPoints([dp1, dp2]);
 
@@ -103,7 +103,17 @@ describe('CoinChartService()', function () {
     it('getData - integration', function (done) {
 
         //Given:
-        var service = new CoinChartService();
+        var api = {
+            CryptoCompare: {
+                getHistoricalPriceByFrequency: () => {
+                    return new Promise((resolve, reject) => {
+                        resolve(dailyData);
+                    });
+                }
+            }
+        }
+
+        var service = new CoinChartService(api);
 
         var t1 = moment().unix();
         var t2 = moment().unix();
@@ -113,16 +123,8 @@ describe('CoinChartService()', function () {
             { time: t2, close: 900 }
         ]
 
-        var apis = {
-            daily: () => {
-                return new Promise((resolve, reject) => {
-                    resolve(dailyData);
-                });
-            }
-        }
-
         //When: 
-        service.getData('ICX', 'BTC', 'USD', 60, apis)
+        service.getData('ICX', 'BTC', 'USD', 60)
             .then((dataPoints) => {
 
                 //Then:

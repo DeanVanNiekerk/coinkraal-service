@@ -197,9 +197,6 @@ describe('PortfolioChartService()', function () {
     it('getData - intergration test', function (done) {
 
         //Given:
-        var utility = new UtilityService();
-        var service = new PortfolioChartService(utility);
-
         var t1 = moment().utc().subtract(2, 'days').startOf('day').unix();
         var t2 = moment().utc().subtract(1, 'days').startOf('day').unix();
         var t3 = moment().utc().subtract(0, 'days').startOf('day').unix();
@@ -209,18 +206,23 @@ describe('PortfolioChartService()', function () {
             {"time":${t2},"close":8873.62},
             {"time":${t3},"close":8865.7}]`);
 
-        var apis = {
-            daily: function() {
-                return new Promise((resolve, reject) => {
-                    resolve(dailyDataUSD);
-                });
+        var api = {
+            CryptoCompare: {
+                getHistoricalPriceByFrequency: () => {
+                    return new Promise((resolve, reject) => {
+                        resolve(dailyDataUSD);
+                    });
+                }
             }
         }
+
+        var utility = new UtilityService();
+        var service = new PortfolioChartService(utility, api);
 
         var t1 = { date: moment().utc().subtract(3, 'days').toISOString(), currency: 'BTC', amount: 1, sales: [] };
 
         //When: 
-        var promise = service.getData([t1], 'USD', 'BTC', 3, 2, apis);
+        var promise = service.getData([t1], 'USD', 'BTC', 3, 2, api);
 
         //Then:
         promise.then(dataPoints => {
