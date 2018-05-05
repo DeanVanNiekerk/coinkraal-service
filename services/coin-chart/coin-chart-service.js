@@ -16,8 +16,6 @@ class CoinChartService {
             if (dataFrequency == 'hours')
                 limit = limit * 24;
 
-            console.log('dataFrequency', dataFrequency)
-
             this.loadDataPointsForCurrency(coin, currency1, limit, dataFrequency, apis)
                 .then((dataPoints1) => {
 

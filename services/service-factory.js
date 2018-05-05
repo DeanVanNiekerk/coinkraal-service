@@ -37,3 +37,5 @@ class ServiceFactory {
     }
 
 }
+
+module.exports = ServiceFactory;
