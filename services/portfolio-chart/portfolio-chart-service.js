@@ -15,8 +15,7 @@ class PortfolioChartService {
 
             if (transactions.length == 0) {
                 resolve({
-                    labels: [],
-                    datasets: []
+                    dataPoints: []
                 });
                 return;
             }
