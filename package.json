@@ -1,6 +1,6 @@
 {
   "name": "coinkraal-service",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Services for CoinKraal Applications",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,6 @@
   "dependencies": {
     "bignumber.js": "^7.0.1",
     "moment": "^2.22.1",
-    "coinkraal-api-interface": "^0.2.3"
+    "coinkraal-agent": "^0.2.9"
   }
 }
