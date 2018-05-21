@@ -1,5 +1,5 @@
 
-let Api = require('coinkraal-api-interface');
+let Api = require('coinkraal-agent');
 
 let UtilityService = require('./utility/utility-service');
 
